@@ -8,89 +8,42 @@ datasource db {
 }
 
 model User {
-  id               String             @id @default(auto()) @map("_id") @db.ObjectId
-  name             String
-  email            String             @unique
-  passwordHash     String
-  workspaces       WorkspaceUsers[]
-  WorkspaceInvites WorkspaceInvites[]
-  channels         ChannelUsers[]
-  messages         Message[]
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  Task             Task[]
+  id           String          @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  email        String          @unique
+  passwordHash String
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  workspaces   WorkspaceUser[]
+  tasks        Task[]
 }
 
 model Workspace {
-  id        String             @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  channels  Channel[]
-  invites   WorkspaceInvites[]
-  users     WorkspaceUsers[]
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
-  tasks     Task[]
-}
-
-model Channel {
-  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
   name        String
-  workspaceId String         @db.ObjectId
-  workspace   Workspace      @relation(fields: [workspaceId], references: [id])
-  users       ChannelUsers[]
-  messages    Message[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  description String
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  tasks       Task[]
+  users       WorkspaceUser[]
+  files       File[]
 }
 
-enum UserRole {
-  OWNER
+enum Role {
+  USER
   ADMIN
-  MEMBER
+  OWNER
 }
 
-model WorkspaceInvites {
+model WorkspaceUser {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String    @db.ObjectId
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
   workspaceId String    @db.ObjectId
   user        User      @relation(fields: [userId], references: [id])
-  workspace   Workspace @relation(fields: [workspaceId], references: [id])
-  role        UserRole
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
-model WorkspaceUsers {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   userId      String    @db.ObjectId
-  workspaceId String    @db.ObjectId
-  user        User      @relation(fields: [userId], references: [id])
-  workspace   Workspace @relation(fields: [workspaceId], references: [id])
-  role        UserRole
+  role        Role      @default(USER)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-}
-
-model ChannelUsers {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String   @db.ObjectId
-  channelId String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
-  channel   Channel  @relation(fields: [channelId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Message {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  channelId String   @db.ObjectId
-  userId    String   @db.ObjectId
-  channel   Channel  @relation(fields: [channelId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
-  content   String
-  files     String[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 enum TaskStatus {
@@ -107,14 +60,24 @@ enum TaskPriority {
 
 model Task {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
-  workspaceId String       @db.ObjectId
-  userId      String       @db.ObjectId
   workspace   Workspace    @relation(fields: [workspaceId], references: [id])
   user        User         @relation(fields: [userId], references: [id])
-  title       String
-  description String
+  workspaceId String       @db.ObjectId
+  userId      String       @db.ObjectId
+  name        String
   status      TaskStatus
   priority    TaskPriority
+  description String?
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+}
+
+model File {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  content     String
+  workspaceId String    @db.ObjectId
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }

@@ -1,7 +1,8 @@
 import {NextRequest} from "next/server";
 import jwt from "jsonwebtoken";
 import prisma from "@/utils/prisma";
-export const getUser = async (req: NextRequest) => {
+import {UserDTO} from "@/types/UserDTO";
+export const getUser = async (req: NextRequest): Promise<UserDTO | null> => {
     const token = req.cookies.get("token");
     if (!token) {
         return null;
@@ -15,5 +16,9 @@ export const getUser = async (req: NextRequest) => {
     if (!user) {
         return null;
     }
-    return user;
+    return {
+        id: user.id,
+        name: user.name,
+        email: user.email
+    }
 }

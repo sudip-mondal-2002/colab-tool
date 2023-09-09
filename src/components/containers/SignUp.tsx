@@ -63,6 +63,11 @@ export const SignUp = () => {
                 minWidth: '300px',
                 marginY: '10px'
             }}>Submit</Button>
+            <Button onClick={()=>{
+                window.location.href = '/auth/signin'
+            }}>
+                Already having account?
+            </Button>
         </Container>
     );
 }
