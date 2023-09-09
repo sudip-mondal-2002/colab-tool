@@ -1,6 +1,11 @@
 import {Dashboard} from "@/components/containers/Dashboard";
-import { WorkspaceProvider } from "@/providers/WorkspaceProvider";
+import {cookies} from "next/headers";
+import {redirect} from "next/navigation";
 
 export default async function Home() {
-    return <WorkspaceProvider><Dashboard /></WorkspaceProvider>
+    const token = cookies().get("token")?.value
+    if (!token) {
+        return redirect("/auth/signin")
+    }
+    return <Dashboard />
 }
