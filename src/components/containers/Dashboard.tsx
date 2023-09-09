@@ -1,6 +1,7 @@
 'use client'
 import {useEffect, useState} from "react";
 import axios from "axios";
+import { WorkspaceSidebar } from "../composite/WorkspaceSidebar";
 
 export const Dashboard = () => {
     const [workspaces, setWorkspaces] = useState<{
@@ -16,5 +17,7 @@ export const Dashboard = () => {
     useEffect(() => {
         axios.get('/api/workspace').then(console.log)
     }, []);
-    return <></>;
+    return <>
+        <WorkspaceSidebar workspaces={workspaces.map(item=>item.name)} />
+    </>
 }
