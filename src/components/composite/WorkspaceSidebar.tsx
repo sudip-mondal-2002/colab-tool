@@ -4,9 +4,11 @@ import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import {WorkspaceContext} from "@/providers/WorkspaceProvider";
 import {useContext} from "react";
+import { useWorkspaces } from "@/hooks/workspaces";
 
 export const WorkspaceSidebar = () => {
     const {workspaces} = useContext(WorkspaceContext)
+    const {selectWorkspace} = useWorkspaces()
     console.log(workspaces)
     return (
         <>
@@ -23,11 +25,12 @@ export const WorkspaceSidebar = () => {
     workspaces?.map((workspace:any) => {
       return (
         <Button 
-          key={workspace.workspace.id}
+          key={workspace.workspaceId}
           style={{
             margin: "10px", 
             padding: "10px 20px"
           }}
+          onClick={() =>selectWorkspace(workspace.workspaceId)}
         >
           {workspace.workspace.name}
         </Button>
