@@ -1,29 +1,15 @@
 'use client'
-import {useEffect, useState} from "react";
-import axios from "axios";
+import {useContext, useEffect, useState} from "react";
 import { WorkspaceSidebar } from "../composite/WorkspaceSidebar";
 import {Container, Skeleton, Stack} from "@mui/material";
+import {WorkspaceContext} from "@/providers/WorkspaceProvider";
 
 export const Dashboard = () => {
-    const [loading, setLoading] = useState(true);
-    const [workspaces, setWorkspaces] = useState<{
-        id: string,
-        name: string
-    }[]>([{
-        id: '2',
-        name: 'test'
-    },{
-        id: '3',
-        name: 'test2'
-    }])
-    useEffect(() => {
-        axios.get('/api/workspace').then(()=>{
-            setLoading(false);
-        })
-    }, []);
+
+    const {workspaces, channels, tasks, channel} = useContext(WorkspaceContext)
     return <>
         {
-            loading ? <Container maxWidth={false} sx={{
+            !workspaces.length && <Container maxWidth={false} sx={{
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -34,7 +20,19 @@ export const Dashboard = () => {
                     {Array.from({length:10}).map((_, index)=><Skeleton key={index} variant="rectangular" width={"100%"} height={"50px"} />)}
                 </Stack>
                 <Skeleton variant="rectangular" width={"69%"} height={"100%"} />
-            </Container> : <WorkspaceSidebar workspaces={workspaces} />
+            </Container>
+        }
+        {
+            workspaces.length && <WorkspaceSidebar />
+        }
+        {
+            channels.length && <></>
+        }
+        {
+            tasks.length && <></>
+        }
+        {
+            channel && <></>
         }
     </>
 }
