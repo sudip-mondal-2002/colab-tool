@@ -1,5 +1,5 @@
-import Image from 'next/image'
+import {Dashboard} from "@/components/containers/Dashboard";
 
-export default function Home() {
-  return <></>
+export default async function Home() {
+    return <Dashboard />
 }
