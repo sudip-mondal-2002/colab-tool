@@ -1,37 +1,68 @@
 'use client'
 
-export const Signup = () => {
+import {useState} from "react";
+import axios from "axios";
+import {Button, Container, TextField} from "@mui/material";
 
- 
-  return (
-    <form action={"/api/user/signup"} method='POST'>
+export const SignUp = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const handleSubmit = async () => {
+        await axios.post('/api/user/signup', {
+            email,
+            name,
+            password
+        })
+        window.location.href = '/'
+    }
+    return (
+        <Container sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100vh'
+        }} >
+            <TextField
+                value={name}
+                onChange={e => setName(e.target.value)}
+                label="Name"
+                variant="outlined"
+                sx={{
+                    width: '40%',
+                    minWidth: '300px',
+                    marginY: '10px'
+                }}
+            />
+            <TextField
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                label="Email"
+                variant="outlined"
+                sx={{
+                    width: '40%',
+                    minWidth: '300px',
+                    marginY: '10px'
+                }}
+            />
+            <TextField
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                label="Password"
+                variant="outlined"
+                sx={{
+                    width: '40%',
+                    minWidth: '300px',
+                    marginY: '10px'
+                }}
+            />
 
-      <label>
-        Name:
-        <input
-          type="text"
-          name="name"
-        />
-      </label>
-
-      <label>
-        Email:
-        <input
-          type="email"  
-          name="email"
-        />  
-      </label>
-
-      <label>
-        Password:
-        <input
-          type="password"
-          name="password"
-        />
-      </label>
-
-      <button type="submit">Signup</button>
-
-    </form>
-  );
+            <Button onClick={handleSubmit} variant={"contained"} sx={{
+                width: '40%',
+                minWidth: '300px',
+                marginY: '10px'
+            }}>Submit</Button>
+        </Container>
+    );
 }
