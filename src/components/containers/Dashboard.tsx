@@ -1,6 +1,7 @@
 'use client'
 import {useContext, useEffect, useState} from "react";
 import { WorkspaceSidebar } from "../composite/WorkspaceSidebar";
+import { ChannelSidebar } from "../composite/ChannelSidebar";
 import {Container, Skeleton, Stack} from "@mui/material";
 import {WorkspaceContext} from "@/providers/WorkspaceProvider";
 
@@ -26,7 +27,7 @@ export const Dashboard = () => {
             workspaces?.length && <WorkspaceSidebar />
         }
         {
-            channels?.length && <></>
+            channels?.length && <ChannelSidebar />
         }
         {
             tasks?.length && <></>
