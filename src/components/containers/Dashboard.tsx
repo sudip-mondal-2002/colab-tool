@@ -10,10 +10,10 @@ export const Dashboard = () => {
         id: string,
         name: string
     }[]>([{
-        id: '1',
+        id: '2',
         name: 'test'
     },{
-        id: '2',
+        id: '3',
         name: 'test2'
     }])
     useEffect(() => {

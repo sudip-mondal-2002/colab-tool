@@ -11,14 +11,32 @@ export const WorkspaceSidebar = ({workspaces}: {
 }) => {
     return (
         <>
-          <Stack width={"29%"} height={"100%"}>
-            {
-                workspaces.map((workspace) => {
-                    return <Button key={workspace.id}>{workspace.name}</Button>
-                })
-            }
-        
-          </Stack>
+          <Stack 
+    width={"29%"}
+    height={"100%"}
+    style={{
+    display: "flex",
+    flexWrap: "wrap" 
+          }}
+>
+  {
+    workspaces.map((workspace) => {
+      return (
+        <Button 
+          key={workspace.id}
+          style={{
+            margin: "10px", 
+            padding: "10px 20px"
+          }}
+        >
+          {workspace.name}
+        </Button>
+      )
+    })
+  }
+
+</Stack>
+
         </>
       );
 }
