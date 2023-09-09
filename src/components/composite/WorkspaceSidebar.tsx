@@ -1,12 +1,24 @@
-import { Container, Box } from "@mui/material";
+import { Container, Box, Button } from "@mui/material";
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
+
 export const WorkspaceSidebar = ({workspaces}: {
-    workspaces: string[]
+    workspaces: {
+        id: string,
+        name: string
+    }[]
 }) => {
     return (
         <>
-          <Container maxWidth="sm">
-            <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }} />
-          </Container>
+          <Stack width={"29%"} height={"100%"}>
+            {
+                workspaces.map((workspace) => {
+                    return <Button key={workspace.id}>{workspace.name}</Button>
+                })
+            }
+        
+          </Stack>
         </>
       );
 }

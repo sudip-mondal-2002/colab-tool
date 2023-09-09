@@ -18,6 +18,6 @@ export const Dashboard = () => {
         axios.get('/api/workspace').then(console.log)
     }, []);
     return <>
-        <WorkspaceSidebar workspaces={workspaces.map(item=>item.name)} />
+        <WorkspaceSidebar workspaces={workspaces} />
     </>
 }
