@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server'
+import {NextRequest, NextResponse} from 'next/server'
 import { getUser } from '@/utils/getUser'
 import {UnauthorizedError} from "@/errors/UnauthorizedError";
 import prisma from "@/utils/prisma";
@@ -29,5 +29,5 @@ export const GET = async (req: NextRequest, {params}: {params: Params}) => {
     if(!workspaceUser){
         throw new UnauthorizedError("Access denied")
     }
-    return workspaceUser.workspace.tasks
+    return NextResponse.json(workspaceUser.workspace.tasks)
 }

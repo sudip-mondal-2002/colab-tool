@@ -7,17 +7,24 @@ export const WorkspaceContext = createContext<any>({});
 export const WorkspaceProvider = ({children}: {
     children: ReactNode
 }) => {
-    const [workspaces, setWorkspaces] = useState([]);
-    const [channels, setChannels] = useState([]);
-    const [workspace, setWorkspace] = useState(null);
-    const [channel, setChannel] = useState(null);
-    const [tasks, setTasks] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [isChannelLoaded, setIsChannelLoaded] = useState(false);
+    const [workspaces, setWorkspaces] = useState<any[]>([]);
+    const [channels, setChannels] = useState<any[]>([]);
+    const [workspace, setWorkspace] = useState<any>(null);
+    const [channel, setChannel] = useState<any>(null);
+    const [tasks, setTasks] = useState<any[]>([]);
 
     useEffect(() => {
         axios.get('/api/workspace').then(({data}) => {
             setWorkspaces(data);
+            setIsLoaded(true);
         });
     }, []);
+
+    useEffect(() => {
+        setIsChannelLoaded(true);
+    }, [channels]);
 
     useEffect(() => {
         if (!workspace){
@@ -25,7 +32,8 @@ export const WorkspaceProvider = ({children}: {
             setChannel(null)
             return;
         }
-        axios.get(`/api/workspace/${workspace}/channel`).then(({data}) => {
+        setIsChannelLoaded(false)
+        axios.get(`/api/workspace/${workspace.id}/channel`).then(({data}) => {
             setChannels(data);
         });
     }, [workspace]);
@@ -35,8 +43,9 @@ export const WorkspaceProvider = ({children}: {
             axios.get('/api/tasks').then(({data}) => {
                 setTasks(data);
             });
+
         }else if(!channel){
-            axios.get(`/api/workspace/${workspace}/task`).then(({data}) => {
+            axios.get(`/api/workspace/${workspace.id}/tasks`).then(({data}) => {
                 setTasks(data);
             });
         } else {
@@ -46,11 +55,13 @@ export const WorkspaceProvider = ({children}: {
 
     return (
         <WorkspaceContext.Provider value={{
+            isLoaded,
             workspaces,
             channels,
             workspace,
             channel,
             tasks,
+            isChannelLoaded,
             setWorkspaces,
             setChannels,
             setWorkspace,

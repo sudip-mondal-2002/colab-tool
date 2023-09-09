@@ -34,5 +34,5 @@ export const POST = async (req: NextRequest, {params}:{
             id: inviteId
         }
     })
-    return NextResponse.redirect(`${process.env.HOST}/workspace/${workspaceInvite.workspaceId}`)
+    return NextResponse.json({})
 }

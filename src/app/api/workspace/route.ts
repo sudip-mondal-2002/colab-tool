@@ -22,7 +22,7 @@ export const POST = async (req: NextRequest) => {
             role: UserRole.OWNER
         }
     });
-    return NextResponse.redirect(`${process.env.HOST}/workspace/${workspace.id}`);
+    return NextResponse.json({})
 }
 
 export const GET = async (req: NextRequest) => {

@@ -3,19 +3,20 @@ import {WorkspaceContext} from "@/providers/WorkspaceProvider";
 import axios from "axios";
 
 export const useWorkspaces = () => {
-    const {setWorkspace, workspaces, setWorkspaces} = useContext(WorkspaceContext);
+    const {setWorkspace, workspaces, workspace, setChannel, channels} = useContext(WorkspaceContext);
     const selectWorkspace = (id:string) => {
-        setWorkspace(workspaces.find((w:any) => w.workspace.id === id));
+        setWorkspace(workspaces.find((w:any) => w.workspace.id === id)?.workspace)
+    }
+    const selectChannel = (id:string) => {
+        setChannel(channels.find((c:any) => c.id === id))
     }
     const createWorkspace = async (name:string) => {
-        await axios.post('/api/workspaces', {name})
-        await updateWorkspaces();
+        await axios.post('/api/workspace', {name})
     }
 
-    const updateWorkspaces = async () => {
-        const {data} = await axios.get('/api/workspaces');
-        setWorkspaces(data);
+    const createChannel = async (name:string) => {
+        await axios.post(`/api/workspace/${workspace.id}/channel`, {name})
     }
 
-    return {workspaces, selectWorkspace, createWorkspace, updateWorkspaces};
+    return {selectWorkspace, createWorkspace, createChannel, selectChannel};
 }

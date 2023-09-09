@@ -39,7 +39,7 @@ export const POST = async (req: NextRequest, {params}: {params: Params}) => {
         }
     })
 
-    return NextResponse.redirect(`/api/workspace/${workspaceId}/channel/${channel.id}`)
+    return NextResponse.json(channel)
 }
 
 export const GET = async (req: NextRequest, {params}: {params: Params}) => {

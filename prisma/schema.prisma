@@ -36,7 +36,7 @@ model Channel {
   id          String         @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   workspaceId String         @db.ObjectId
-  workspace   Workspace      @relation(fields: [workspaceId], references: [id])
+  workspace   Workspace      @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   users       ChannelUsers[]
   messages    Message[]
   createdAt   DateTime       @default(now())
@@ -53,8 +53,8 @@ model WorkspaceInvites {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   userId      String    @db.ObjectId
   workspaceId String    @db.ObjectId
-  user        User      @relation(fields: [userId], references: [id])
-  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   role        UserRole
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -64,8 +64,8 @@ model WorkspaceUsers {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   userId      String    @db.ObjectId
   workspaceId String    @db.ObjectId
-  user        User      @relation(fields: [userId], references: [id])
-  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   role        UserRole
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -75,8 +75,8 @@ model ChannelUsers {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
   channelId String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
-  channel   Channel  @relation(fields: [channelId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  channel   Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -85,8 +85,8 @@ model Message {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   channelId String   @db.ObjectId
   userId    String   @db.ObjectId
-  channel   Channel  @relation(fields: [channelId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
+  channel   Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   content   String
   files     String[]
   createdAt DateTime @default(now())
@@ -109,8 +109,8 @@ model Task {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
   workspaceId String       @db.ObjectId
   userId      String       @db.ObjectId
-  workspace   Workspace    @relation(fields: [workspaceId], references: [id])
-  user        User         @relation(fields: [userId], references: [id])
+  workspace   Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   title       String
   description String
   status      TaskStatus
