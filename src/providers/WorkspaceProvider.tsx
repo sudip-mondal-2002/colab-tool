@@ -1,7 +1,8 @@
+'use client'
 import {ReactNode, useEffect, useState, createContext} from "react";
 import axios from "axios";
 
-export const WorkspaceContext = createContext<any>(null);
+export const WorkspaceContext = createContext<any>({});
 
 export const WorkspaceProvider = ({children}: {
     children: ReactNode

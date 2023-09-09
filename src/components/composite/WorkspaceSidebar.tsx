@@ -7,6 +7,7 @@ import {useContext} from "react";
 
 export const WorkspaceSidebar = () => {
     const {workspaces} = useContext(WorkspaceContext)
+    console.log(workspaces)
     return (
         <>
           <Stack 
@@ -17,17 +18,18 @@ export const WorkspaceSidebar = () => {
     flexWrap: "wrap" 
           }}
 >
+    <Button variant="contained" style={{margin: "10px", padding: "10px 20px"}}>Create Workspace</Button>
   {
-    workspaces.map((workspace:any) => {
+    workspaces?.map((workspace:any) => {
       return (
         <Button 
-          key={workspace.id}
+          key={workspace.workspace.id}
           style={{
             margin: "10px", 
             padding: "10px 20px"
           }}
         >
-          {workspace.name}
+          {workspace.workspace.name}
         </Button>
       )
     })

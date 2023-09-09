@@ -9,7 +9,7 @@ export const Dashboard = () => {
     const {workspaces, channels, tasks, channel} = useContext(WorkspaceContext)
     return <>
         {
-            !workspaces.length && <Container maxWidth={false} sx={{
+            !workspaces?.length && <Container maxWidth={false} sx={{
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -23,13 +23,13 @@ export const Dashboard = () => {
             </Container>
         }
         {
-            workspaces.length && <WorkspaceSidebar />
+            workspaces?.length && <WorkspaceSidebar />
         }
         {
-            channels.length && <></>
+            channels?.length && <></>
         }
         {
-            tasks.length && <></>
+            tasks?.length && <></>
         }
         {
             channel && <></>
